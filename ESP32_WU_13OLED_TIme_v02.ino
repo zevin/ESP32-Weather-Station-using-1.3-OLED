@@ -215,6 +215,7 @@ const char nt_clear_icon[] PROGMEM = {
 String apikey   = "your Weather Underground API key";
 String country  = "your country" //e.g. "UK";
 String city     = "your city"    //e.g. "LONDON";
+String pws      = "your pws_id"  //e.g. "pws:KIDBOISE188" - Optional
 
 const char* host     = "api.wunderground.com";
 const char* ssid     = "your SSID";
@@ -412,7 +413,14 @@ int Call_API(String* resultString) {
    return false;
   }
   // Weather Underground API address http://api.wunderground.com/api/YOUR_API_KEY/conditions/q/YOUR_STATE/YOUR_CITY.json
+  // Weather Underground API address for PWS http://api.wunderground.com/api/YOUR_API_KEY/conditions/q/"+pws+".json
+  if (pws != "your pws_id"){
+    String url ="http://api.wunderground.com/api/"+apikey+"/conditions/q/"+pws+".json";
+  }
+  else
+  {
   String url = "http://api.wunderground.com/api/"+apikey+"/conditions/q/"+country+"/"+city+".json";
+  }
   Serial.println("Requesting URL: "+String(url));
   client.print(String("GET ") + url + " HTTP/1.1\r\n" +
   "Host: " + host + "\r\n" +
